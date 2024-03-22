@@ -19,6 +19,49 @@ function divide(firstNum, SecondNum) {
     return firstNum / SecondNum;
 }
 
+function operate(expression, firstNum, secondNum) {
+    switch (expression) {
+        case "+":
+            console.log("Is Adding! (+)->", expression, firstNum, secondNum);
+            return add(firstNum, secondNum);
+        case "-":
+            console.log("Is Subtracting! (-)->", expression, firstNum, secondNum);
+            return sustract(firstNum, secondNum);
+        case "x":
+            console.log("Is Multiplying! (x)->", expression, firstNum, secondNum);
+            return multiply(firstNum, secondNum);
+        case "/":
+            console.log("Is Dividing! (/)->", expression, firstNum, secondNum);
+            return divide(firstNum, secondNum);
+    }
+}
+
+function processInput() {
+    const inputArr = input.value.split(" ");
+    console.log(inputArr)
+    let firstNum = "";
+    let secondNum = "";
+    let expression = "";
+    for (let i = 0; i <= inputArr.length; i++) {
+        console.log(`iS${i}: `, expression, firstNum, secondNum);
+        if (!isNaN(+inputArr[i])) {
+            if (expression === "") {
+                firstNum = inputArr[i];
+            } else {
+                secondNum = inputArr[i];
+            }
+        } else if (expression !== "" && secondNum !== "") {
+            firstNum = operate(expression, +firstNum, +secondNum);
+            console.log("RESULT = " + firstNum);
+            secondNum = "";
+            expression = inputArr[i];
+        } else if (inputArr[i] !== " "){
+            expression = inputArr[i];
+        }
+        console.log(`iE${i}: `, expression, firstNum, secondNum);
+    }
+}
+
 function undoLastInput() {
     if (historyArr.length > 1) {
         input.value = historyArr[historyArr.length - 2];
@@ -27,13 +70,8 @@ function undoLastInput() {
     console.log(historyArr.pop(), historyArr);
 }
 
-function operate() {
-    console.log(input.value);
-}
-
 function getInput(event) {
     if (event.target.tagName === "BUTTON") {
-        console.log(event.target.id);
         switch (event.target.id) {
             case "btn0":
                 input.value += "0";
@@ -87,7 +125,7 @@ function getInput(event) {
                 input.value = "";
                 break;
             case "btnOperate":
-                operate();
+                processInput();
                 break;
         }
         input.scrollLeft = input.scrollWidth - input.clientWidth;
