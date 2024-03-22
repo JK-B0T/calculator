@@ -1,12 +1,17 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 button {
     font-size: 2em;
 }
 input {
-    width: 89.5vh;
+    width: 100%;
     margin: 0 auto;
     font-size: 2em;
-    border: 5px solid orange;
-    border-bottom: 0;
+    border-bottom: 5px solid orange;
 }
 
 #calculatorBtnsContainer {
@@ -15,6 +20,7 @@ input {
     flex-wrap: wrap;
     width: 90vh;
     height: 90vh;
+    margin: 4vh auto;
     border: 5px solid orange;
 }
 
