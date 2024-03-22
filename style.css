@@ -1,16 +1,39 @@
+button {
+    font-size: 2em;
+}
+input {
+    width: 89.5vh;
+    margin: 0 auto;
+    font-size: 2em;
+    border: 5px solid orange;
+    border-bottom: 0;
+}
+
 #calculatorBtnsContainer {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     width: 90vh;
     height: 90vh;
     border: 5px solid orange;
 }
 
-#calculatorBtnsContainer button{
- flex: 1 1 20vh;
- font-size: 2em;
+#upperBtnRow {
+    display: flex;
+    flex: 0.5 1 auto;
+}
+#upperBtnRow button{
+    flex: 1 1 20vh;
+}
+#upperBtnRow #btnOperate {
+    flex: 1 1 42.5vh;
 }
 
-#btnOperate {
-    /*flex: 2 1 auto*/
+#lowerBtnRow{
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1 1 auto;
+}
+#lowerBtnRow button{
+    flex: 1 1 20vh;
 }
