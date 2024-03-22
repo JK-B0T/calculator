@@ -60,6 +60,7 @@ function processInput() {
         }
         console.log(`iE${i}: `, expression, firstNum, secondNum);
     }
+    input.value = firstNum;
 }
 
 function undoLastInput() {
