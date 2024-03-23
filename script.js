@@ -74,7 +74,13 @@ function addToInput(addedInput) {
 }
 
 function addDecimal() {
+    const inputArr = input.value.trim().split(" ");
+    const lastInput = (inputArr[inputArr.length - 1]);
 
+    console.log(lastInput, inputArr, inputArr[inputArr.length - 1], +lastInput % 1);
+    if (!isNaN(+lastInput) && +lastInput % 1 === 0) {
+        addToInput(".");
+    }
 }
 
 function undoLastInput() {
@@ -180,7 +186,7 @@ function getInput(event) {
             case "btnFloat":
             case "NumpadDecimal":
             case "Period":
-                addToInput(".");
+                addDecimal();
                 break;
             case "btnUndo":
             case "Backspace":
