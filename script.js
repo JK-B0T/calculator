@@ -62,15 +62,21 @@ function processInput() {
         }
         console.log(`iE${i}: `, expression, firstNum, secondNum);
     }
-    input.value = firstNum;
 
-    if(input.value == "Infinity" || input.value == "NaN") {
+    if(firstNum == "Infinity" || firstNum == "NaN") {
+        input.value = firstNum;
         input.readOnly = true;
         inputPaused = true;
         setTimeout(undoLastInput , 1000 );
     } else {
+        input.value = +firstNum.toFixed(3);
         historyArr.push(input.value);
     }
+}
+
+function addToInput(addedInput) {
+    input.value += addedInput;
+    historyArr.push(input.value);
 }
 
 function undoLastInput() {
@@ -80,68 +86,79 @@ function undoLastInput() {
     }
     input.readOnly = false;
     inputPaused = false;
-    console.log(historyArr.pop(), historyArr);
+}
+
+function replaceExpression (newExpression) {
+    const inputArr = input.value.trim().split(" ");
+    const lastInput = (inputArr[inputArr.length - 1]);
+    if (isNaN(+lastInput)) {
+        undoLastInput();
+        addToInput(newExpression);
+    } else {
+        addToInput(newExpression);
+    }
 }
 
 function getInput(event) {
     if (event.target.tagName === "BUTTON" && inputPaused === false) {
         switch (event.target.id) {
             case "btn0":
-                input.value += "0";
+                addToInput("0");
                 break;
             case "btn1":
-                input.value += "1";
+                addToInput("1");
                 break;
             case "btn2":
-                input.value += "2";
+                addToInput("2");
                 break;
             case "btn3":
-                input.value += "3";
+                addToInput("3");
                 break;
             case "btn4":
-                input.value += "4";
+                addToInput("4");
                 break;
             case "btn5":
-                input.value += "5";
+                addToInput("5");
                 break;
             case "btn6":
-                input.value += "6";
+                addToInput("7");
                 break;
             case "btn7":
-                input.value += "7";
+                addToInput("7");
                 break;
             case "btn8":
-                input.value += "8";
+                addToInput("8");
                 break;
             case "btn9":
-                input.value += "9";
+                addToInput("9");
                 break;
             case "btnAdd":
-                input.value += " + ";
+                replaceExpression (" + ");
                 break;
-            case "btnSustract":
-                input.value += " - ";
+            case "btnSubtract":
+                replaceExpression (" - ");
                 break;
             case "btnMultiply":
-                input.value += " x ";
+                replaceExpression (" x ");
                 break;
             case "btnDivide":
-                input.value += " / ";
+                replaceExpression (" / ");
                 break;
             case "btnFloat":
-                input.value += ".";
+                addToInput(".");
                 break;
             case "btnUndo":
                 undoLastInput();
                 break;
             case "btnClear":
                 input.value = "";
+                historyArr.push(input.value);
                 break;
             case "btnOperate":
                 processInput();
                 break;
         }
         input.scrollLeft = input.scrollWidth - input.clientWidth;
-        historyArr.push(input.value);
+        console.log(historyArr);
     }
 }
