@@ -24,6 +24,8 @@ input {
     height: 90vh;
     margin: 4vh auto;
     border: 20px solid orange;
+    border-radius: 2%;
+    box-shadow: 1em 1em 1.5em black;
 }
 
 #upperBtnRow {
