@@ -4,8 +4,12 @@
     padding: 0;
 }
 
+body {
+    background-color: lightgoldenrodyellow;
+}
+
 button {
-    font-size: 2em;
+    font-size: 6vh;
 }
 input {
     width: 100%;
@@ -19,19 +23,19 @@ input {
     width: 90vh;
     height: 90vh;
     margin: 4vh auto;
-    border: 5px solid orange;
+    border: 20px solid orange;
 }
 
 #upperBtnRow {
-    border-top: 5px solid orange;
+    border-top: 20px solid orange;
     display: flex;
     flex: 0.23 1 auto;
 }
 #upperBtnRow button{
-    flex: 1 1 20vh;
+    flex: 1 1 25%;
 }
 #upperBtnRow #btnOperate {
-    flex: 1 1 42.24vh;
+    flex: 2 1 50%;
 }
 
 #lowerBtnRow{
@@ -40,7 +44,7 @@ input {
     flex: 1 1 auto;
 }
 #lowerBtnRow button{
-    flex: 1 1 20vh;
+    flex: 1 1 25%;
 }
 
 #btnAdd{
