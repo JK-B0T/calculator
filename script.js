@@ -2,7 +2,9 @@ let historyArr = [""];
 let inputPaused = false;
 const buttons = document.querySelector("#calculatorBtnsContainer");
 const input = document.querySelector("#calculatorBtnsContainer input");
+
 buttons.addEventListener("click", getInput, false);
+document.addEventListener('keydown', getInput, false);
 
 function add(firstNum, SecondNum) {
     return firstNum + SecondNum;
@@ -23,29 +25,23 @@ function divide(firstNum, SecondNum) {
 function operate(expression, firstNum, secondNum) {
     switch (expression) {
         case "+":
-            console.log("Is Adding! (+)->", expression, firstNum, secondNum);
             return add(firstNum, secondNum);
         case "-":
-            console.log("Is Subtracting! (-)->", expression, firstNum, secondNum);
             return subtract(firstNum, secondNum);
         case "x":
-            console.log("Is Multiplying! (x)->", expression, firstNum, secondNum);
             return multiply(firstNum, secondNum);
         case "/":
-            console.log("Is Dividing! (/)->", expression, firstNum, secondNum);
             return divide(firstNum, secondNum);
     }
 }
 
 function processInput() {
     const inputArr = input.value.split(" ");
-    console.log(inputArr)
     let firstNum = "";
     let secondNum = "";
     let expression = "";
 
     for (let i = 0; i <= inputArr.length; i++) {
-        console.log(`iS${i}: `, expression, firstNum, secondNum);
         if (!isNaN(+inputArr[i])) {
             if (expression === "") {
                 firstNum = inputArr[i];
@@ -54,13 +50,11 @@ function processInput() {
             }
         } else if (expression !== "" && secondNum !== "") {
             firstNum = operate(expression, +firstNum, +secondNum);
-            console.log("RESULT = " + firstNum);
             secondNum = "";
             expression = inputArr[i];
         } else if (inputArr[i] !== " "){
             expression = inputArr[i];
         }
-        console.log(`iE${i}: `, expression, firstNum, secondNum);
     }
 
     if(firstNum == "Infinity" || firstNum == "NaN") {
@@ -77,6 +71,10 @@ function processInput() {
 function addToInput(addedInput) {
     input.value += addedInput;
     historyArr.push(input.value);
+}
+
+function addDecimal() {
+
 }
 
 function undoLastInput() {
@@ -100,65 +98,104 @@ function replaceExpression (newExpression) {
 }
 
 function getInput(event) {
-    if (event.target.tagName === "BUTTON" && inputPaused === false) {
-        switch (event.target.id) {
-            case "btn0":
+    let inputValue;
+    if (event.type === "click") {
+        inputValue = event.target.id;
+        console.log("click", inputValue);
+    } else {
+        inputValue = event.code;
+        console.log("keydown", inputValue);
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
+    if ((event.target.tagName === "BUTTON" || event.type === "keydown") && inputPaused === false) {
+        switch (inputValue) {
+            case "btn0": 
+            case "Digit0":
+            case "Numpad0":
                 addToInput("0");
                 break;
-            case "btn1":
+            case "btn1": 
+            case "Digit1":
+            case "Numpad1":
                 addToInput("1");
                 break;
-            case "btn2":
+            case "btn2": 
+            case "Digit2":
+            case "Numpad2":
                 addToInput("2");
                 break;
-            case "btn3":
+            case "btn3": 
+            case "Digit3":
+            case "Numpad3":
                 addToInput("3");
                 break;
-            case "btn4":
+            case "btn4": 
+            case "Digit4":
+            case "Numpad4":
                 addToInput("4");
                 break;
-            case "btn5":
+            case "btn5": 
+            case "Digit5":
+            case "Numpad5":
                 addToInput("5");
                 break;
-            case "btn6":
+            case "btn6": 
+            case "Digit6":
+            case "Numpad6":
+                addToInput("6");
+                break;
+            case "btn7": 
+            case "Digit7":
+            case "Numpad7":
                 addToInput("7");
                 break;
-            case "btn7":
-                addToInput("7");
-                break;
-            case "btn8":
+            case "btn8": 
+            case "Digit8":
+            case "Numpad8":
                 addToInput("8");
                 break;
-            case "btn9":
+            case "btn9": 
+            case "Digit9":
+            case "Numpad9":
                 addToInput("9");
                 break;
             case "btnAdd":
+            case "NumpadAdd":
                 replaceExpression (" + ");
                 break;
             case "btnSubtract":
+            case "NumpadSubtract":
                 replaceExpression (" - ");
                 break;
             case "btnMultiply":
+            case "KeyX":
                 replaceExpression (" x ");
                 break;
             case "btnDivide":
+            case "NumpadDivide":
                 replaceExpression (" / ");
                 break;
             case "btnFloat":
+            case "NumpadDecimal":
+            case "Period":
                 addToInput(".");
                 break;
             case "btnUndo":
+            case "Backspace":
                 undoLastInput();
                 break;
             case "btnClear":
+            case "Escape":
                 input.value = "";
                 historyArr.push(input.value);
                 break;
+            case "Enter":
             case "btnOperate":
                 processInput();
                 break;
         }
         input.scrollLeft = input.scrollWidth - input.clientWidth;
-        console.log(historyArr);
     }
 }
