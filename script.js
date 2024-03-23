@@ -1,4 +1,5 @@
 let historyArr = [""];
+let inputPaused = false;
 const buttons = document.querySelector("#calculatorBtnsContainer");
 const input = document.querySelector("#calculatorBtnsContainer input");
 buttons.addEventListener("click", getInput, false);
@@ -7,7 +8,7 @@ function add(firstNum, SecondNum) {
     return firstNum + SecondNum;
 }
 
-function sustract(firstNum, SecondNum) {
+function subtract(firstNum, SecondNum) {
     return firstNum - SecondNum;
 }
 
@@ -26,7 +27,7 @@ function operate(expression, firstNum, secondNum) {
             return add(firstNum, secondNum);
         case "-":
             console.log("Is Subtracting! (-)->", expression, firstNum, secondNum);
-            return sustract(firstNum, secondNum);
+            return subtract(firstNum, secondNum);
         case "x":
             console.log("Is Multiplying! (x)->", expression, firstNum, secondNum);
             return multiply(firstNum, secondNum);
@@ -42,6 +43,7 @@ function processInput() {
     let firstNum = "";
     let secondNum = "";
     let expression = "";
+
     for (let i = 0; i <= inputArr.length; i++) {
         console.log(`iS${i}: `, expression, firstNum, secondNum);
         if (!isNaN(+inputArr[i])) {
@@ -61,6 +63,14 @@ function processInput() {
         console.log(`iE${i}: `, expression, firstNum, secondNum);
     }
     input.value = firstNum;
+
+    if(input.value == "Infinity" || input.value == "NaN") {
+        input.readOnly = true;
+        inputPaused = true;
+        setTimeout(undoLastInput , 1000 );
+    } else {
+        historyArr.push(input.value);
+    }
 }
 
 function undoLastInput() {
@@ -68,11 +78,13 @@ function undoLastInput() {
         input.value = historyArr[historyArr.length - 2];
         historyArr.pop();
     }
+    input.readOnly = false;
+    inputPaused = false;
     console.log(historyArr.pop(), historyArr);
 }
 
 function getInput(event) {
-    if (event.target.tagName === "BUTTON") {
+    if (event.target.tagName === "BUTTON" && inputPaused === false) {
         switch (event.target.id) {
             case "btn0":
                 input.value += "0";
